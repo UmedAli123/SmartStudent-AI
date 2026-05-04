@@ -23,6 +23,20 @@ login_manager = LoginManager()
 login_manager.login_view = 'login'
 login_manager.init_app(app)
 
+# Create tables during startup (Essential for Render/Gunicorn)
+with app.app_context():
+    db.create_all()
+    # Create a default user if none exists
+    from models import User
+    if not User.query.filter_by(email='admin@example.com').first():
+        admin = User(
+            email='admin@example.com',
+            name='Admin Teacher',
+            password=generate_password_hash('admin123', method='pbkdf2:sha256')
+        )
+        db.session.add(admin)
+        db.session.commit()
+
 ml_engine = MLEngine()
 ml_engine.load()
 
@@ -232,15 +246,4 @@ def clear_history():
     return redirect(url_for('history'))
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-        # Create a default user if none exists
-        if not User.query.filter_by(email='admin@example.com').first():
-            admin = User(
-                email='admin@example.com',
-                name='Admin Teacher',
-                password=generate_password_hash('admin123', method='pbkdf2:sha256')
-            )
-            db.session.add(admin)
-            db.session.commit()
     app.run(debug=True, port=5001)
