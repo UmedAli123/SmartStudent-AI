@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block content %}
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh;">
+    <div class="glass animate-in" style="width: 100%; max-width: 700px; text-align: center; padding: 4rem; position: relative; overflow: hidden;">
+        <!-- Background decoration -->
+        <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%); opacity: 0.1;"></div>
+        
+        <div style="margin-bottom: 3rem;">
+            <div class="stat-icon" style="margin: 0 auto 1.5rem; width: 56px; height: 56px; background: rgba(56, 189, 248, 0.1); color: var(--accent-primary);">
+                <i data-lucide="brain"></i>
+            </div>
+            <p style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; font-weight: 700;">AI Prediction Result</p>
+            <h1 class="text-gradient" style="font-size: 2.5rem; margin-top: 0.5rem;">{{ student.name }}</h1>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem;">
+            <div class="glass" style="padding: 2rem; background: rgba(56, 189, 248, 0.05); border-color: rgba(56, 189, 248, 0.2);">
+                <p style="color: var(--text-secondary); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 1rem;">Expected Grade</p>
+                <div style="font-size: 4rem; font-weight: 800; color: white; line-height: 1;">{{ result.predicted_grade }}</div>
+            </div>
+            <div class="glass" style="padding: 2rem; background: rgba(129, 140, 248, 0.05); border-color: rgba(129, 140, 248, 0.2);">
+                <p style="color: var(--text-secondary); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 1rem;">Risk Assessment</p>
+                <div class="badge badge-risk-{{ result.risk_level|lower }}" style="font-size: 1.2rem; padding: 0.6rem 1.5rem;">
+                    {{ result.risk_level }}
+                </div>
+            </div>
+        </div>
+
+        <div class="glass" style="text-align: left; padding: 2rem; background: rgba(255, 255, 255, 0.02); border-left: 4px solid var(--accent-primary);">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                <i data-lucide="sparkles" style="width: 20px; color: var(--accent-primary);"></i>
+                <h3 style="margin: 0; font-size: 1.2rem;">Intelligent Insights</h3>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 1rem; line-height: 1.7;">
+                {% if result.risk_level == 'Low' %}
+                The student is performing exceptionally well. Based on the study patterns and attendance, we predict a successful outcome. No immediate intervention required.
+                {% elif result.risk_level == 'Medium' %}
+                Moderate risk identified. We recommend providing targeted tutoring support and encouraging a more consistent study schedule to improve the projected grade.
+                {% else %}
+                <strong style="color: var(--danger);">Critical Alert:</strong> The student is at a high risk of academic failure. Immediate intervention, parental counseling, and extra support sessions are strongly advised.
+                {% endif %}
+            </p>
+        </div>
+
+        <div style="margin-top: 3.5rem; display: flex; gap: 1.5rem;">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline" style="flex: 1;">
+                <i data-lucide="layout-dashboard" style="width: 18px;"></i>
+                Dashboard
+            </a>
+            <a href="{{ url_for('students') }}" class="btn btn-primary" style="flex: 1;">
+                <i data-lucide="users" style="width: 18px;"></i>
+                View All Students
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

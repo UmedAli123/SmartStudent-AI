@@ -1,0 +1,11 @@
+flask
+flask-sqlalchemy
+flask-login
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+werkzeug
+gunicorn
+psycopg2-binary

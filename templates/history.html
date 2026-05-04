@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% block content %}
+<header style="margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: flex-end;">
+    <div>
+        <h1 class="text-gradient">Prediction History</h1>
+        <p style="color: var(--text-secondary);">Audit log of all AI-generated performance evaluations and risk assessments.</p>
+    </div>
+    {% if history %}
+    <a href="{{ url_for('clear_history') }}" class="btn btn-outline" style="border-color: rgba(244, 63, 94, 0.3); color: var(--danger);" onclick="return confirm('Are you sure you want to delete ALL prediction history? This action cannot be undone.')">
+        <i data-lucide="trash-2"></i>
+        Clear All History
+    </a>
+    {% endif %}
+</header>
+
+<div class="glass" style="padding: 1rem;">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Analysis Date</th>
+                    <th>Student Profile</th>
+                    <th>Predicted Grade</th>
+                    <th>Risk Assessment</th>
+                    <th style="text-align: right;">Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in history %}
+                <tr>
+                    <td style="color: var(--text-dim); font-size: 0.85rem;">
+                        <i data-lucide="clock" style="width: 14px; vertical-align: middle; margin-right: 4px;"></i>
+                        {{ record.prediction_date.strftime('%b %d, %Y | %H:%M') }}
+                    </td>
+                    <td style="font-weight: 600;">{{ record.student.name }}</td>
+                    <td style="font-weight: 800; font-size: 1.2rem; color: white;">
+                        <span style="color: var(--accent-primary);">{{ record.predicted_grade }}</span>
+                    </td>
+                    <td>
+                        <span class="badge badge-risk-{{ record.risk_level|lower }}">
+                            {{ record.risk_level }}
+                        </span>
+                    </td>
+                    <td style="text-align: right;">
+                        <a href="{{ url_for('predict', student_id=record.student_id) }}" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+                            <i data-lucide="external-link" style="width: 14px;"></i>
+                            View Details
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% if not history %}
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 4rem; color: var(--text-dim);">
+                        <i data-lucide="history" style="width: 48px; height: 48px; margin-bottom: 1rem; opacity: 0.3;"></i>
+                        <p>No historical records found.</p>
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
