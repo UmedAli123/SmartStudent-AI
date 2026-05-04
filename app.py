@@ -24,21 +24,36 @@ login_manager.login_view = 'login'
 login_manager.init_app(app)
 
 # Create tables during startup (Essential for Render/Gunicorn)
-with app.app_context():
-    db.create_all()
-    # Create a default user if none exists
-    from models import User
-    if not User.query.filter_by(email='admin@example.com').first():
-        admin = User(
-            email='admin@example.com',
-            name='Admin Teacher',
-            password=generate_password_hash('admin123', method='pbkdf2:sha256')
-        )
-        db.session.add(admin)
-        db.session.commit()
+print("--- STARTING APP INITIALIZATION ---")
+try:
+    with app.app_context():
+        print(f"Connecting to database: {app.config['SQLALCHEMY_DATABASE_URI'].split('@')[-1]}")
+        db.create_all()
+        print("Database tables verified/created.")
+        
+        # Create a default user if none exists
+        from models import User
+        if not User.query.filter_by(email='admin@example.com').first():
+            admin = User(
+                email='admin@example.com',
+                name='Admin Teacher',
+                password=generate_password_hash('admin123', method='pbkdf2:sha256')
+            )
+            db.session.add(admin)
+            db.session.commit()
+            print("Default admin user created.")
+except Exception as e:
+    print(f"DATABASE ERROR: {str(e)}")
 
-ml_engine = MLEngine()
-ml_engine.load()
+print("Loading ML Engine...")
+try:
+    ml_engine = MLEngine()
+    if ml_engine.load():
+        print("ML Engine loaded successfully.")
+    else:
+        print("ML Engine failed to load models (model.pkl/features.pkl missing?).")
+except Exception as e:
+    print(f"ML ENGINE ERROR: {str(e)}")
 
 @login_manager.user_loader
 def load_user(user_id):
