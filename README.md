@@ -38,6 +38,7 @@ SmartStudent AI is a cutting-edge, full-stack web application designed to empowe
    python app.py
    ```
 4. Access the dashboard at `http://localhost:5001`.
+5. Here is live link: https://smartstudent-ai-1.onrender.com
 
 ## 🌐 Deployment
 
@@ -48,4 +49,5 @@ This project is optimized for **Render**. To deploy:
 4. Add the `DATABASE_URL` and `SECRET_KEY` environment variables.
 
 ---
+
 *Empowering education through intelligent data analysis.*
