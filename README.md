@@ -51,3 +51,7 @@ This project is optimized for **Render**. To deploy:
 
 ---
 *Empowering education through intelligent data analysis.*
+
+## 🤝 Contributors
+
+- **Manaal Sheikh** - *Lead Developer & AI Integration* - [GitHub Profile](https://github.com/UmedAli123)
