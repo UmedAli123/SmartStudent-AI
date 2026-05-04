@@ -1,7 +1,5 @@
 # SmartStudent AI: Performance Tracking & Prediction System
 
-**Developed by: Manaal Sheikh**
-
 SmartStudent AI is a cutting-edge, full-stack web application designed to empower educators with data-driven insights. By leveraging advanced Machine Learning, the system predicts student academic outcomes and identifies potential risks in real-time.
 
 ## ✨ Features
@@ -51,7 +49,3 @@ This project is optimized for **Render**. To deploy:
 
 ---
 *Empowering education through intelligent data analysis.*
-
-## 🤝 Contributors
-
-- **Manaal Sheikh** - *Lead Developer & AI Integration* - [GitHub Profile](https://github.com/UmedAli123)
